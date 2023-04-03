@@ -37,17 +37,24 @@ class TaskListViewController: UITableViewController {
         }
     }
     
-    private func showAlert(withTitle title: String, andMessage message: String) {
+    private func showAlert(withTitle title: String, andMessage message: String, updateTextField: String? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save Task", style: .default) { [weak self] _ in
             guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
             self?.save(task)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        
+
+        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         alert.addTextField { textField in
             textField.placeholder = "New Task"
+            if updateTextField != nil {
+                textField.text = updateTextField
+            }
+            
         }
         present(alert, animated: true)
     }
@@ -108,5 +115,29 @@ extension TaskListViewController {
         content.text = task.title
         cell.contentConfiguration = content
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let cellText = taskList[indexPath.row].title ?? ""
+        print(cellText)
+        
+        showAlert(withTitle: "Update task", andMessage: "What do you want to do?", updateTextField: cellText)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(
+            style: .destructive,
+            title: "Delete"
+        ) {
+            [weak self] contextualAction, view, bool in
+            let task = self?.taskList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
+            
+        }
+        
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }
