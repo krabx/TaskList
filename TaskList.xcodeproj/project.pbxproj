@@ -73,6 +73,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		6E74B2D329DC921900705559 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A83A1D5B29D9ECCA000B0D27 /* TaskList.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		A83A1D4629D9ECCA000B0D27 = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +105,7 @@
 				6E74B2CE29DB6A1B00705559 /* ViewControllers */,
 				A83A1D5E29D9ECCB000B0D27 /* Assets.xcassets */,
 				6E74B2CF29DB6A3E00705559 /* StoryBoards */,
-				A83A1D5B29D9ECCA000B0D27 /* TaskList.xcdatamodeld */,
+				6E74B2D329DC921900705559 /* Models */,
 			);
 			path = TaskList;
 			sourceTree = "<group>";
