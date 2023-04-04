@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import CoreData
 
-class TaskListViewController: UITableViewController {
+final class TaskListViewController: UITableViewController {
     
     private let storageManager = StorageManager.shared
     
@@ -39,9 +38,7 @@ class TaskListViewController: UITableViewController {
                 self?.save(task)
                 return
             }
-            self?.taskList[updateIndex].title = task
-            self?.storageManager.saveContext()
-            self?.tableView.reloadData()
+            self?.update(task, for: updateIndex)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
 
@@ -114,8 +111,7 @@ extension TaskListViewController {
     }
 }
 
-// MARK: Methods for CoreData
-
+// MARK: Methods of working with CoreData
 private extension TaskListViewController {
     
     func save(_ taskName: String) {
@@ -135,5 +131,11 @@ private extension TaskListViewController {
         self.taskList.remove(at: index.row)
         tableView.deleteRows(at: [index], with: .automatic)
         tableView.reloadData()
+    }
+    
+    func update(_ task: String, for index: Int) {
+        self.taskList[index].title = task
+        self.storageManager.saveContext()
+        self.tableView.reloadData()
     }
 }
